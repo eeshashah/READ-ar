@@ -19,8 +19,8 @@ struct Node {
 };
 
 class RedBlack {
-    Node* insert(vector<string> genre, string title, string description,int pages, string author, double rating);
 public:
+    Node* insert(vector<string> genre, string title, string description,int pages, string author, double rating);
     Node* root;
     void balance(Node* node);
     Node* RBTreeGetGrandparent(Node* node);
