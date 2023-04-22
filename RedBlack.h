@@ -1,26 +1,28 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <set>
 using namespace std;
 
 struct Node {
     string color;
+    string format;
     string author;
-    vector<string> genre;
+    set<string> genre;
     string title;
     string description;
     int pages;
-    double rating;
+    string rating;
     Node *left;
     Node *right;
     Node *parent;
-    Node (vector<string> genre, string title, string description, int pages, string author, double rating): color("red"), genre(genre), title(title),
+    Node (set<string> genre, string title, string description, int pages, string author, string rating, string format): color("red"), genre(genre), title(title),
     author(author), pages(pages), description(description), rating(rating), left(nullptr), right(nullptr), parent(nullptr){};
 };
 
 class RedBlack {
 public:
-    Node* insert(vector<string> genre, string title, string description,int pages, string author, double rating);
+    Node* insert(set<string> genre, string title, string description,int pages, string author, string rating,string format);
     Node* root;
     void balance(Node* node);
     Node* RBTreeGetGrandparent(Node* node);
