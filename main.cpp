@@ -5,8 +5,6 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
-#include <chrono>
-using namespace std::chrono;
 #include "RedBlack.h"
 using namespace std;
 using std::ofstream;
@@ -82,6 +80,11 @@ int main() {
         }
     }
 
+    set<string>::iterator itr;
+    for(itr = allGenresFound.begin(); itr != allGenresFound.end(); itr++){
+       // cout<< *itr << endl;
+    }
+
     bool end = false;
     string userGenre;
     int userLength;
@@ -104,19 +107,27 @@ int main() {
         cout << "       Answer a few short questions: \n"
                 "\n"
                 "       1) Preferred book genre? Here's some options:\n";
-        // Output all genres (unless there's too many, only do some of them)
-        cout << "       ";
+
+        cout << "       Academia, Academic, Accounting, Action, Activism, Adult, Adult Fiction, Adventure, Aeroplanes" << endl;
+        cout << "       African American, Agriculture, Aircraft, Albanian Literature, Alchemy, American Civil War" << endl;
+        cout << "       American Classics, American Fiction, American History, American Revolutionary War" <<endl;
+        cout<< "       Christianity, Family Law, Fandom, Fantasy, Fantasy Romance, Social Change" <<endl;
+        cout<< "       Social Justice, Social Media, Social Movements, Society, Sociology, Vaccines" << endl;
+        cout << "       Vampires, Vegan, Vegetarian, Video Games, Womens Fiction, Womens Rights" << endl;
+        cout << "       World History, World War I, Young Adult, Young Adult Contemporary, Young Adult Fantasy"  << endl;
+
         cin >> userGenre;
-        // Redblack stuff
+
+
         cout << "       2) Preferred book length?\n" // Add more options depending on largest page length
                 "       1. 0-50 pages 2. 50-100 pages 3. 100-150 pages 4. 200-250 pages 5. 300-350 pages\n";
         cout << "       ";
         cin >> userLength;
-        // Redblack stuff
+
         cout << "       3) Hardcover or Paperback?\n";
         cout << "       ";
         cin >> userFormat;
-        // Redblack stuff
+
         cout << "       Thank you!";
         cout << endl;
         cout << endl;
@@ -135,6 +146,8 @@ int main() {
                 " ██████████████████████████████████████████████████████████████████████████████████████████████ ";
         cout << endl;
 
+        //implement DFS and BFS
+        //check if outputs are valid with different fucntions-  like make sure a link is not printing or something weird
         string userStatus;
 
         cout << endl;
