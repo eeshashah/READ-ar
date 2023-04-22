@@ -100,9 +100,9 @@ void RedBlack::balance(Node *node) {
 }
 
 //http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap13.htm section 13.3 for TREE INSERT pseudocode
-Node* RedBlack::insert(vector<string> genre, string title, string description,int pages, string author, double rating) {
+Node* RedBlack::insert(set<string> genre, string title, string description,int pages, string author, string rating, string format) {
     //insertion into a BST cited from AVL project
-    Node* node = new Node(genre,title,description,pages, author,rating);
+    Node* node = new Node(genre,title,description,pages, author,rating,format);
     Node* y = nullptr;
     Node* x = this->root;
     while(x!= nullptr){
