@@ -7,7 +7,7 @@
 #include <queue>
 using namespace std;
 
-//pseudocode taken from http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap14.htm 14.2 LEFT-ROTATE section
+// # Referenced pseudocode taken from http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap14.htm 14.2 LEFT-ROTATE section
 void RedBlack::leftRotate(Node *node) {
     Node* y = node->right;
     node->right = y->left;
@@ -60,7 +60,7 @@ Node* RedBlack::RBTreeGetUncle(Node* node){
     return nullptr;
 }
 
-//pseudocode taken from balanced trees lecture slides
+// # Referenced pseudocode from balanced trees lecture slides
 void RedBlack::balance(Node *node) {
     if(node->parent == nullptr) {
         node->color = "black";
@@ -100,9 +100,9 @@ void RedBlack::balance(Node *node) {
 
 }
 
-//http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap13.htm section 13.3 for TREE INSERT pseudocode
+// # Referenced http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap13.htm section 13.3 for TREE INSERT pseudocode
 Node* RedBlack::insert(set<string> genre, string title, string description,int pages, string author, string rating, string format) {
-    //insertion into a BST cited from AVL project
+    // # Referenced insertion into a BST cited from AVL project
     Node* node = new Node(genre,title,description,pages, author,rating,format);
     Node* y = nullptr;
     Node* x = this->root;
