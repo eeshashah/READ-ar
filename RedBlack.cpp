@@ -126,7 +126,7 @@ Node* RedBlack::insert(set<string> genre, string title, string description,int p
     balance(node);
 }
 
-void RedBlack::DFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count){
+void RedBlack::DFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count, int BFSorDFS){
     // if item in depth first search is matching, then add the nodes to an array or something; so you can print them
     // or print them
 
@@ -137,17 +137,17 @@ void RedBlack::DFS(Node* root, string category, int lengthMin, int lengthMax, st
     if(root->genre.find(category) != root->genre.end()){
         if(root->pages > lengthMin && root->pages < lengthMax) {
             if(root->format == format) {
-                if(qualityCheck(root,count)){
+                if(qualityCheck(root,count,BFSorDFS )){
                     matches.push_back(root);
                 }
             }
         }
     }
-    DFS(root->left, category, lengthMin, lengthMax, format, matches, count);
-    DFS(root->right, category, lengthMin, lengthMax, format, matches, count);
+    DFS(root->left, category, lengthMin, lengthMax, format, matches, count, BFSorDFS);
+    DFS(root->right, category, lengthMin, lengthMax, format, matches, count, BFSorDFS);
 }
 
-void RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count ){
+void RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count, int BFSorDFS ){
     queue<Node*> queue;
 
     if(root == nullptr){
@@ -160,7 +160,7 @@ void RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, st
         if(current->genre.find(category) != current->genre.end()){
             if(current->pages > lengthMin && current->pages < lengthMax) {
                 if(current->format == format) {
-                    if(qualityCheck(current,count)){
+                    if(qualityCheck(current,count, BFSorDFS)){
                         matches.push_back(current);
                     }
                 }
@@ -177,14 +177,42 @@ void RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, st
 
 }
 
-bool RedBlack::qualityCheck(Node* node, int &count){
-    count++;
-    if(count > 5){
+void RedBlack::insertIntoHolder(vector<Node*> matches,int BFSorDFS) {
+    if(BFSorDFS == 0){
+        for(int i = 0; i <matches.size(); i++ ){
+            BFS_holder.push_back(matches[i]);
+        }
+    }
+
+    if(BFSorDFS == 1){
+        for(int i = 0; i <matches.size(); i++ ){
+            DFS_holder.push_back(matches[i]);
+        }
+    }
+
+}
+
+bool RedBlack::qualityCheck(Node* node, int &count, int BFSorDFS){
+    if(count > 4){
         return false;
     }
 
     if(stod(node->rating) < 3.0){
         return false;
     }
+
+    //BFS
+    if(BFSorDFS == 0){
+        if(find(BFS_holder.begin(),BFS_holder.end(), node) != BFS_holder.end()){
+          return false;
+        }
+    }
+
+    if(BFSorDFS == 1){
+        if(find(DFS_holder.begin(),DFS_holder.end(), node) != DFS_holder.end()){
+            return false;
+        }
+    }
+    count++;
     return true;
 }
