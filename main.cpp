@@ -245,7 +245,7 @@ int main() {
             for (int i = 0; i < rr; i++){
                 cout<<"✰";
             }
-            cout<<"/✰✰✰✰";
+            cout<<"/✰✰✰✰✰";
 
             cout << endl;
 
