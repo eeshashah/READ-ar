@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <set>
@@ -208,7 +209,7 @@ int main() {
         if(BFSorDFS == 0 ) {
             int count = 0;
             auto startTime = high_resolution_clock::now();
-            tree.BFS(tree.root, userGenre, lengthMin, lengthMax, userFormat, bookRecs,  count);
+            tree.BFS(tree.root, userGenre, lengthMin, lengthMax, userFormat, bookRecs,  count, BFSorDFS);
             auto stopTime = high_resolution_clock::now();
             auto duration = duration_cast<microseconds>(stopTime - startTime);
             cout << endl << "BFS Time: " << duration.count()<< " microseconds" << endl;
@@ -217,7 +218,7 @@ int main() {
         if(BFSorDFS == 1) {
             int count = 0;
             auto startTime = high_resolution_clock::now();
-            tree.DFS(tree.root,userGenre, lengthMin, lengthMax, userFormat, bookRecs, count);
+            tree.DFS(tree.root,userGenre, lengthMin, lengthMax, userFormat, bookRecs, count, BFSorDFS);
             auto stopTime = high_resolution_clock::now();
             auto duration = duration_cast<microseconds>(stopTime - startTime);
             cout <<  endl << "DFS Time: " << duration.count()<< " microseconds" << endl;
@@ -268,6 +269,7 @@ int main() {
         }
         cin.get();
 
+        tree.insertIntoHolder(bookRecs, BFSorDFS);
     }
 
     cout << endl;
