@@ -126,52 +126,65 @@ Node* RedBlack::insert(set<string> genre, string title, string description,int p
     balance(node);
 }
 
-vector<Node*> RedBlack::DFS(Node* root, string category, int lengthMin, int lengthMax, string format){
-    // if item in breadth first search is matching, then add the nodes to an array or something; so you can print them
+void RedBlack::DFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count){
+    // if item in depth first search is matching, then add the nodes to an array or something; so you can print them
     // or print them
-    cout<< "DFS" <<endl;
-    vector<Node*> matches;
+
     if(root == nullptr){
-        return matches;
+        return ;
     }
-    //do something
-    cout <<"test"<<endl;
+
     if(root->genre.find(category) != root->genre.end()){
-        if(root->pages > lengthMin && root->pages < lengthMax && root->pages != 0) {
+        if(root->pages > lengthMin && root->pages < lengthMax) {
             if(root->format == format) {
-                matches.push_back(root);
-                cout << "Pushing Match: "<< root->title<<endl;
+                if(qualityCheck(root,count)){
+                    matches.push_back(root);
+                }
             }
         }
     }
-    DFS(root->left, category, lengthMin, lengthMax, format);
-    DFS(root->right, category, lengthMin, lengthMax, format);
+    DFS(root->left, category, lengthMin, lengthMax, format, matches, count);
+    DFS(root->right, category, lengthMin, lengthMax, format, matches, count);
 }
 
-/*vector<Node*> RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, string format){
+void RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count ){
     queue<Node*> queue;
-    vector<Node*> matches;
+
     if(root == nullptr){
-        return matches;
+        return;
     }
     queue.push(root);
+
     while(!queue.empty()){
         Node* current = queue.front();
-        if(root->genre.find(category) != root->genre.end()){
-            if(root->pages > lengthMin && root->pages < lengthMax && root->pages != 0) {
-                if(root->format == format) {
-                    matches.push_back(root);
-                    cout << "Pushing Match: "<< root->title<<endl;
+        if(current->genre.find(category) != current->genre.end()){
+            if(current->pages > lengthMin && current->pages < lengthMax) {
+                if(current->format == format) {
+                    if(qualityCheck(current,count)){
+                        matches.push_back(current);
+                    }
                 }
             }
         }
         queue.pop();
         if(current->left != nullptr){
-            queue.push(queue.front()->left);
+            queue.push(current->left);
         }
         if(current->right != nullptr){
-            queue.push(queue.front()->right);
+            queue.push(current->right);
         }
     }
 
-}*/
+}
+
+bool RedBlack::qualityCheck(Node* node, int &count){
+    count++;
+    if(count > 5){
+        return false;
+    }
+
+    if(stod(node->rating) < 3.0){
+        return false;
+    }
+    return true;
+}
