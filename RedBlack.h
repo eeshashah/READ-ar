@@ -31,8 +31,12 @@ public:
     void rightRotate(Node* node);
     void leftRotate(Node* node);
     void uniqueBookTitle(Node* node);
-    void BFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count);
-    void DFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count);
-    bool qualityCheck(Node* node, int &count);
+    void BFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count, int BFSorDFS);
+    void DFS(Node* root, string category, int lengthMin, int lengthMax, string format, vector<Node*> &matches, int &count, int BFSorDFS);
+    bool qualityCheck(Node* node, int &count, int BFSorDFS);
+    vector<Node*> BFS_holder;
+    vector<Node*> DFS_holder;
+    bool duplicateChecker(vector<Node*> &matches);
+    void insertIntoHolder(vector<Node*> matches, int BFSorDFS);
     RedBlack():root(){};
 };
