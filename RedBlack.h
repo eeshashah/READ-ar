@@ -17,7 +17,7 @@ struct Node {
     Node *right;
     Node *parent;
     Node (set<string> genre, string title, string description, int pages, string author, string rating, string format): color("red"), genre(genre), title(title),
-    author(author), pages(pages), description(description), rating(rating), left(nullptr), right(nullptr), parent(nullptr){};
+                                                                                                                        author(author), pages(pages), description(description), rating(rating), left(nullptr), right(nullptr), parent(nullptr){};
 };
 
 class RedBlack {
@@ -31,7 +31,7 @@ public:
     void rightRotate(Node* node);
     void leftRotate(Node* node);
     void uniqueBookTitle(Node* node);
-    void BFS();
-    void DFS();
+    vector<Node*> BFS(Node* root, string category, int lengthMin, int lengthMax, string format);
+    vector<Node*> DFS(Node* root, string category, int lengthMin, int lengthMax, string format);
     RedBlack():root(){};
 };

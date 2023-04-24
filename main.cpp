@@ -6,7 +6,9 @@
 #include <sstream>
 #include <fstream>
 #include "RedBlack.h"
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 using std::ofstream;
 
 // READ-ar
@@ -82,17 +84,20 @@ int main() {
 
     set<string>::iterator itr;
     for(itr = allGenresFound.begin(); itr != allGenresFound.end(); itr++){
-       // cout<< *itr << endl;
+        //cout<< *itr << endl;
     }
 
     bool end = false;
     string userGenre;
     int userLength;
     string userFormat;
+    int lengthMin, lengthMax;
+
+    //cout<<tree.root->title;
 
     while (end == false) {
         cout << endl;
-        cout << "       █░█░█  █▀▀  █    █▀▀  █▀█  █▀▄▀█  █▀▀   ▀█▀  █▀█\n"
+        //cout << "       █░█░█  █▀▀  █    █▀▀  █▀█  █▀▄▀█  █▀▀   ▀█▀  █▀█\n"
                 "       ▀▄▀▄▀  ██▄  █▄▄  █▄▄  █▄█  █░▀░█  ██▄   ░█░  █▄█\n"
                 "                                                                                     ██\n"
                 "     ██████╗░███████╗░█████╗░██████╗░░░░░░░░█████╗░██████╗░                ░░░░░░  ██  ██\n"
@@ -116,13 +121,37 @@ int main() {
         cout << "       Vampires, Vegan, Vegetarian, Video Games, Womens Fiction, Womens Rights" << endl;
         cout << "       World History, World War I, Young Adult, Young Adult Contemporary, Young Adult Fantasy"  << endl;
 
-        cin >> userGenre;
+        getline(cin, userGenre);
 
 
         cout << "       2) Preferred book length?\n" // Add more options depending on largest page length
-                "       1. 0-50 pages 2. 50-100 pages 3. 100-150 pages 4. 200-250 pages 5. 300-350 pages\n";
+                "       1. 0-50 pages 2. 50-100 pages 3. 100-200 pages 4. 200-300 pages 5. 300-400 pages 6. 400+ pages\n";
         cout << "       ";
         cin >> userLength;
+        if(userLength == 1){
+            lengthMin = 0;
+            lengthMax = 50;
+        }
+        else if(userLength == 2){
+            lengthMin = 50;
+            lengthMax = 100;
+        }
+        else if(userLength == 3){
+            lengthMin = 100;
+            lengthMax = 200;
+        }
+        else if(userLength == 4){
+            lengthMin = 200;
+            lengthMax = 300;
+        }
+        else if(userLength == 5){
+            lengthMin = 300;
+            lengthMax = 400;
+        }
+        else if (userLength == 6){
+            lengthMin = 500;
+            lengthMax = 10000;
+        }
 
         cout << "       3) Hardcover or Paperback?\n";
         cout << "       ";
@@ -132,7 +161,7 @@ int main() {
         cout << endl;
         cout << endl;
 
-        cout << "       █░░  █▀█  ▄▀█  █▀▄  █  █▄░█  █▀▀\n"
+        //cout << "       █░░  █▀█  ▄▀█  █▀▄  █  █▄░█  █▀▀\n"
                 "       █▄▄  █▄█  █▀█  █▄▀  █  █░▀█  █▄█\n"
                 "       Finding your new favorite books!\n"
                 "\n"
@@ -147,11 +176,22 @@ int main() {
         cout << endl;
 
         //implement DFS and BFS
-        //check if outputs are valid with different fucntions-  like make sure a link is not printing or something weird
+        //check if outputs are valid with different functions-  like make sure a link is not printing or something weird
+        auto startTime = high_resolution_clock::now();
+        //vector<Node*> bookRecs = tree.BFS(tree.root,userGenre, lengthMin, lengthMax, userFormat);
+        auto stopTime = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stopTime-startTime);
+        cout << "BFS Time: " << duration.count() << " microseconds" << endl;
+        startTime = high_resolution_clock::now();
+        vector<Node*> bookRecs = tree.DFS(tree.root,userGenre, lengthMin, lengthMax, userFormat);
+        stopTime = high_resolution_clock::now();
+        duration = duration_cast<microseconds>(stopTime-startTime);
+        cout << "DFS Time: " << duration.count() << " microseconds" << endl;
+
         string userStatus;
 
         cout << endl;
-        cout << "            ██████\n"
+        //cout << "            ██████\n"
                 "          ██░░░░░░██\n"
                 "        ██░░░░░░░░░░░██\n"
                 "      ██░░▄▀▀▀▀▀▀▄     ██               █░█  █▀▀  █▀█  █▀▀  ▀  █▀     █░█░█  █░█  ▄▀█  ▀█▀\n"
@@ -167,8 +207,27 @@ int main() {
                 "\n"
                 "█▄█  █▀█  █░█  █▀█     █▀█  █▀▀  █▀▀  █▀  ▀\n"
                 "░█░  █▄█  █▄█  █▀▄     █▀▄  ██▄  █▄▄  ▄█  ▄\n"
-                "███████████████████████████████████████████\n"
+                "███████████████████████████████████████████\n";
                 // Output from RedBlack/DFS/BFS with this format
+                cout << "Here's what we found!" <<endl;
+                for(int i = 0; i < bookRecs.size(); i++){
+                    cout<< (i+1) << ". " << bookRecs[i] ->title << endl;
+                    cout << "Author: " << bookRecs[i]->author << endl;
+                    cout << "Description: " << bookRecs[i]->description << endl;
+                    cout << "Genre(s): ";
+                    for(auto genre: bookRecs[i]->genre){
+                        cout << genre << ", ";
+                    }
+
+                    cout << "Book Length: " << bookRecs[i]->pages << endl;
+                    cout << "Estimated Reading Time: " << (bookRecs[i]->pages*2) << " minutes" << endl;
+                    cout << "Average Rating: " << stoi(bookRecs[i]->rating);
+                    for (int i = 0; i < stoi(bookRecs[i]->rating); i++){
+                        // cout<<"✰";
+                    }
+                    cout <<"\n";
+
+                }
                 "1. Book 1\n"
                 "- Author:\n"
                 "- Description:\n"

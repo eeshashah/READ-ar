@@ -4,6 +4,7 @@
 #include <vector>
 #include "string"
 #include "RedBlack.h"
+#include <queue>
 using namespace std;
 
 //pseudocode taken from http://staff.ustc.edu.cn/~csli/graduate/algorithms/book6/chap14.htm 14.2 LEFT-ROTATE section
@@ -124,3 +125,53 @@ Node* RedBlack::insert(set<string> genre, string title, string description,int p
 
     balance(node);
 }
+
+vector<Node*> RedBlack::DFS(Node* root, string category, int lengthMin, int lengthMax, string format){
+    // if item in breadth first search is matching, then add the nodes to an array or something; so you can print them
+    // or print them
+    cout<< "DFS" <<endl;
+    vector<Node*> matches;
+    if(root == nullptr){
+        return matches;
+    }
+    //do something
+    cout <<"test"<<endl;
+    if(root->genre.find(category) != root->genre.end()){
+        if(root->pages > lengthMin && root->pages < lengthMax && root->pages != 0) {
+            if(root->format == format) {
+                matches.push_back(root);
+                cout << "Pushing Match: "<< root->title<<endl;
+            }
+        }
+    }
+    DFS(root->left, category, lengthMin, lengthMax, format);
+    DFS(root->right, category, lengthMin, lengthMax, format);
+}
+
+/*vector<Node*> RedBlack::BFS(Node* root, string category, int lengthMin, int lengthMax, string format){
+    queue<Node*> queue;
+    vector<Node*> matches;
+    if(root == nullptr){
+        return matches;
+    }
+    queue.push(root);
+    while(!queue.empty()){
+        Node* current = queue.front();
+        if(root->genre.find(category) != root->genre.end()){
+            if(root->pages > lengthMin && root->pages < lengthMax && root->pages != 0) {
+                if(root->format == format) {
+                    matches.push_back(root);
+                    cout << "Pushing Match: "<< root->title<<endl;
+                }
+            }
+        }
+        queue.pop();
+        if(current->left != nullptr){
+            queue.push(queue.front()->left);
+        }
+        if(current->right != nullptr){
+            queue.push(queue.front()->right);
+        }
+    }
+
+}*/
